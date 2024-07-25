@@ -10,17 +10,19 @@ using namespace std;
 
 class Solution {
   public:
-    bool isPossibleSolution(int arr[],int n,int M,int m){
+    
+    bool possible(int n,int arr[],int m,int sol){
         int sum = 0;
         int c = 1;
         for(int i=0;i<n;i++){
-            if(arr[i]>m){
+            if(arr[i]>sol){
                 return false;
             }
-            if(sum+arr[i]>m){
+            if(arr[i]+sum>sol){
                 c++;
                 sum = arr[i];
-                if(c>M){
+                
+                if(c>m){
                     return false;
                 }
             }
@@ -30,20 +32,22 @@ class Solution {
         }
         return true;
     }
-    long long findPages(int n, int arr[], int M) {
-        if(M>n) return -1;
+    
+    long long findPages(int n, int arr[], int m) {
+        if(m>n){
+            return -1;
+        }
         int s = 0;
         int e = accumulate(arr,arr+n,0);
         int ans = -1;
-        
         while(s<=e){
-            int m = s+(e-s)/2;
-            if(isPossibleSolution(arr,n,M,m)){
-                ans = m;
-                e = m-1;
+            int mid = s+(e-s)/2;
+            if(possible(n,arr,m,mid)){
+                ans = mid;
+                e = mid-1;
             }
             else{
-                s = m+1;
+                s = mid+1;
             }
         }
         return ans;
