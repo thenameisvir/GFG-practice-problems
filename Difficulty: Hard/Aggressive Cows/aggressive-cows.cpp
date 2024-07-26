@@ -9,37 +9,41 @@ using namespace std;
 
 class Solution {
 public:
-    bool ispossible(vector<int> &stalls,int k,int sol){
+    bool ispossible(vector<int> &arr,int k,int sol){
         int c = 1;
-        int pos = stalls[0];
-        for(int i=1;i<stalls.size();i++){
-            if(stalls[i] - pos>=sol){
+        int pos = arr[0];
+        for(int i=1;i<arr.size();i++){
+            if(arr[i]-pos>=sol){
                 c++;
-                pos = stalls[i]; // one more cow has been placed
+                pos = arr[i];
             }
+            
             if(c==k) return true;
         }
         return false;
     }
-    int solve(int n, int k, vector<int> &stalls) {
-        sort(stalls.begin(),stalls.end());
+    int solve(int n, int k, vector<int> &arr) {
+        sort(arr.begin(),arr.end());
         int s = 0;
-        int e = stalls[stalls.size()-1]-stalls[0];
         int ans = -1;
-        
+        int e = arr[arr.size()-1] - arr[0];
         while(s<=e){
             int m = s+(e-s)/2;
-            if(ispossible(stalls,k,m)){
-                ans = m;
+            if(ispossible(arr,k,m)){
                 s = m+1;
+                ans = m;
             }
             else{
                 e = m-1;
             }
+            
         }
         return ans;
+        
     }
 };
+
+
 
 //{ Driver Code Starts.
 
