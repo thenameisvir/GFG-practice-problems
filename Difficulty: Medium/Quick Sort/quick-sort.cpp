@@ -17,12 +17,12 @@ class Solution
 {
     public:
     //Function to sort an array using quick sort algorithm.
-    void quickSort(int arr[], int low, int high)
+    void quickSort(int arr[], int start, int end)
     {
-        if(low>=high) return;
-        int pivot = high;
-        int i = low-1;
-        int j = low;
+        if(start>=end) return;
+        int i = start-1;
+        int j = start;
+        int pivot = end;
         
         while(j<pivot){
             if(arr[j]<arr[pivot]){
@@ -35,14 +35,15 @@ class Solution
         i++;
         swap(arr[i],arr[pivot]);
         
-        quickSort(arr,low,i-1);
-        quickSort(arr,i+1,high);
+        quickSort(arr,start,i-1);
+        quickSort(arr,i+1,end);
+        
     }
     
     public:
-    int partition (int arr[], int low, int high)
+    int partition (int arr[], int start, int end)
     {
-       // wouldn't use this partition
+       // Your code here
     }
 };
 
