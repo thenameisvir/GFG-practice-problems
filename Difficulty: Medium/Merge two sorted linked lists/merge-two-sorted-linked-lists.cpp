@@ -56,14 +56,13 @@ struct Node {
 class Solution {
   public:
     Node* sortedMerge(Node* head1, Node* head2) {
-       // Basic conditions first    
        if(head1==NULL) return head2;
        if(head2==NULL) return head1;
        
        Node* ans = new Node(-1);
        Node* mptr = ans;
        
-       while(head1 && head2){
+       while(head1&&head2){
            if(head1->data<=head2->data){
                mptr->next = head1;
                mptr = head1;
@@ -80,9 +79,11 @@ class Solution {
        if(head1){
            mptr->next = head1;
        }
+       
        if(head2){
            mptr->next = head2;
        }
+       
        
        
        return ans->next;
