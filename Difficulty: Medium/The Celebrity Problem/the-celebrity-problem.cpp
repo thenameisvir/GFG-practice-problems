@@ -14,16 +14,18 @@ class Solution {
     int celebrity(vector<vector<int> >& M) {
         
         int n = M.size();
+        
         stack<int>st;
-        // step 1 : Push all the possibles into the stack
+        // first push the elemtns into the stack okayyy
         for(int i=0;i<n;i++){
             st.push(i);
         }
-        // step 2: Discard using stack (Do it vir)
+        // then discard the elemetns using stack ,, trust me kid 
+        // you are going so well , just don't give up okayy :)
         while(st.size()!=1){
             int a = st.top(); st.pop();
-            int b = st.top(); st.pop();
             
+            int b = st.top(); st.pop();
             
             if(M[a][b]){
                 st.push(b);
@@ -34,24 +36,27 @@ class Solution {
             
         }
         
-        int mightBeCelebrity = st.top(); st.pop();
+        // now check whether the given top is celebrity or not
         
-        // now check it , whether it is celebrity or not
-        
-        for(int i=0;i<n;i++){
-            if(M[mightBeCelebrity][i]!=0){
-                return -1;
-            }
-        }
+        int mightbeCel = st.top(); st.pop();
         
         for(int i=0;i<n;i++){
-            if(M[i][mightBeCelebrity]==0 && i!=mightBeCelebrity){
+            if(M[mightbeCel][i]!=0){
                 return -1;
             }
         }
         
         
-        return mightBeCelebrity;
+        for(int i=0;i<n;i++){
+            if(M[i][mightbeCel]!=1 && mightbeCel!=i){
+                return -1;
+            }
+        }
+        
+        
+        
+        return mightbeCel;
+        
         
         
     }
