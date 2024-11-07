@@ -12,16 +12,18 @@ class Solution {
   public:
     // Function to find if there is a celebrity in the party or not.
     int celebrity(vector<vector<int> >& M) {
-        
         int n = M.size();
         
+        
+        
         stack<int>st;
-        // first push the elemtns into the stack okayyy
+        
+        // initialised into the stack 
         for(int i=0;i<n;i++){
             st.push(i);
         }
-        // then discard the elemetns using stack ,, trust me kid 
-        // you are going so well , just don't give up okayy :)
+        // discarded using the stack which is the best use of it and it 
+        // will be gained within of that
         while(st.size()!=1){
             int a = st.top(); st.pop();
             
@@ -36,9 +38,9 @@ class Solution {
             
         }
         
-        // now check whether the given top is celebrity or not
-        
+        // now check whether you have taken correct person celebrity 
         int mightbeCel = st.top(); st.pop();
+        
         
         for(int i=0;i<n;i++){
             if(M[mightbeCel][i]!=0){
@@ -46,18 +48,14 @@ class Solution {
             }
         }
         
-        
         for(int i=0;i<n;i++){
-            if(M[i][mightbeCel]!=1 && mightbeCel!=i){
+            if(M[i][mightbeCel]!=1 && i!=mightbeCel){
                 return -1;
             }
         }
         
         
-        
         return mightbeCel;
-        
-        
         
     }
 };
