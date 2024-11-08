@@ -15,19 +15,16 @@ class Solution {
         int n = M.size();
         
         
-        
         stack<int>st;
         
-        // initialised into the stack 
+        // Initialising the values into the stack 
         for(int i=0;i<n;i++){
             st.push(i);
         }
-        // discarded using the stack which is the best use of it and it 
-        // will be gained within of that
+        // Discarding the values and taking out the main celebrity .
         while(st.size()!=1){
-            int a = st.top(); st.pop();
-            
-            int b = st.top(); st.pop();
+            int a = st.top();st.pop();
+            int b = st.top();st.pop();
             
             if(M[a][b]){
                 st.push(b);
@@ -35,12 +32,11 @@ class Solution {
             else{
                 st.push(a);
             }
-            
         }
         
-        // now check whether you have taken correct person celebrity 
-        int mightbeCel = st.top(); st.pop();
+        //now check whether the celebrity is the given one or not :)
         
+        int mightbeCel = st.top();st.pop();
         
         for(int i=0;i<n;i++){
             if(M[mightbeCel][i]!=0){
