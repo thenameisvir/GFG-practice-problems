@@ -14,14 +14,12 @@ class Solution {
     int celebrity(vector<vector<int> >& M) {
         int n = M.size();
         
-        
         stack<int>st;
         
-        // Initialising the values into the stack 
         for(int i=0;i<n;i++){
             st.push(i);
         }
-        // Discarding the values and taking out the main celebrity .
+        
         while(st.size()!=1){
             int a = st.top();st.pop();
             int b = st.top();st.pop();
@@ -34,25 +32,23 @@ class Solution {
             }
         }
         
-        //now check whether the celebrity is the given one or not :)
-        
-        int mightbeCel = st.top();st.pop();
+        int mightBeCel = st.top();
         
         for(int i=0;i<n;i++){
-            if(M[mightbeCel][i]!=0){
+            if(M[mightBeCel][i]!=0){
                 return -1;
             }
         }
         
         for(int i=0;i<n;i++){
-            if(M[i][mightbeCel]!=1 && i!=mightbeCel){
+            if(M[i][mightBeCel]!=1 && i!=mightBeCel){
                 return -1;
             }
         }
         
         
-        return mightbeCel;
         
+        return mightBeCel;
     }
 };
 
