@@ -28,10 +28,11 @@ struct Node
 
 class Solution {
   public:
-    void ans(Node* root,vector<int>&v,int level){
+    void ans(Node *root,vector<int>&v,int level){
+        // if null hai to vapas chale jao
         if(root==NULL) return;
         
-        if(level==v.size()){
+        if(v.size()==level){
             v.push_back(root->data);
         }
         
@@ -39,19 +40,16 @@ class Solution {
         ans(root->left,v,level+1);
         ans(root->right,v,level+1);
         
+        
     }
-    
     vector<int> leftView(Node *root) {
-       
-       vector<int>v;
-       ans(root,v,0);
-       
-       return v;
-       
-       
-       
-       
-       
+     
+     vector<int>v;
+     ans(root,v,0);
+     
+     
+     return v;
+        
     }
 };
 
