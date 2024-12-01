@@ -111,7 +111,7 @@ class Solution {
         q.push({root, 0});
         
         while (!q.empty()) {
-            auto temp = q.front();
+            pair<Node*,int>temp = q.front();
             q.pop();
             
             Node* frontNode = temp.first;
