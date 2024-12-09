@@ -105,31 +105,34 @@ struct Node
 class Solution {
   public:
   
-    // Convert a given tree to a tree where every node contains sum of values of
-    // nodes in left and right subtrees in the original tree
     int sum(Node *root){
+        // base case is as important as logic
+        // It tells you where to stop
+        
+        
         if(!root) return 0;
+        
+        // here we calcualted the logic for the leaf node
         if(!root->left && !root->right){
             int temp = root->data;
             root->data = 0;
             return temp;
         }
-        
+        // ek kaam mai karunga baki recursion karega
         int lsum = sum(root->left);
         int rsum = sum(root->right);
-        int temp = root->data;
         
-        root->data = lsum + rsum;
-        return root->data+temp;
+        // now the most important logic of the question
+        
+        int temp = root->data;
+        root->data = lsum+rsum;
+        
+        return temp+root->data;
+        
     }
     void toSumTree(Node *root)
     {
         sum(root);
-        
-        
-        
-        
-        
     }
 };
 
