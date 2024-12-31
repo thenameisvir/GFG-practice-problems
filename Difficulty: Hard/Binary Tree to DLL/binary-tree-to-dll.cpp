@@ -101,7 +101,7 @@ void inorder(Node* root) {
 
 // } Driver Code Ends
 /* Structure for tree and linked list
-
+ 
 struct Node
 {
     int data;
@@ -117,46 +117,31 @@ struct Node
 
 // This function should return head to the DLL
 class Solution {
-    Node* head = NULL; // To keep track of the head of the DLL
-    Node* tail = NULL; // To keep track of the tail of the DLL
-
-    void convertToBst(Node* root) {
-        if (root == NULL) {
-            return;
-        }
-
-        // Recur for the right subtree first
-        convertToBst(root->right);
-
-        // Update links to form the DLL
+  public:
+    
+    Node* head = NULL;
+    
+    void bhambhosda(Node* root){
+        if(!root) return;
+        
+        bhambhosda(root->right);
+        
         root->right = head;
-        if (head != NULL) {
+        if(head){
             head->left = root;
         }
         head = root;
-
-        // Recur for the left subtree
-        convertToBst(root->left);
+        
+        bhambhosda(root->left);
+        
     }
-
-public:
+    
     Node* bToDLL(Node* root) {
-        if (root == NULL) {
-            return NULL;
-        }
-
-        // Convert the binary tree to DLL
-        convertToBst(root);
-
-        // Head is now the last visited node, so we need to find the start of the DLL
-        Node* current = head;
-        while (current != NULL && current->left != NULL) {
-            current = current->left;
-        }
-        return current;
+        if (!root) return NULL;
+        bhambhosda(root);
+        return head;
     }
 };
-
 
 //{ Driver Code Starts.
 
