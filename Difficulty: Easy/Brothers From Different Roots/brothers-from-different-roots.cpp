@@ -101,34 +101,45 @@ struct Node
 class Solution
 {
 public:
-    void build(Node* root, vector<int>& v) {
-        if (!root) return;
-        build(root->left, v);
-        v.push_back(root->data);
-        build(root->right, v);
+    void BuildIt(Node* root1,vector<int>&v){
+        if(!root1) return;
+        
+        BuildIt(root1->left,v);
+        v.push_back(root1->data);
+        BuildIt(root1->right,v);
     }
+    void BuildIt2(Node* root2, vector<int>& v2) {
+    if (!root2) return;
+    
+    BuildIt2(root2->right, v2); // Corrected from BuildIt to BuildIt2
+    v2.push_back(root2->data);
+    BuildIt2(root2->left, v2); // Corrected from BuildIt to BuildIt2
+}
     int countPairs(Node* root1, Node* root2, int x)
     {
-         vector<int> v1, v2;
-
-        // Collect elements of both BSTs in sorted order
-        build(root1, v1);
-        build(root2, v2);
-
-        // Use two-pointer technique to count pairs
-        int i = 0, j = v2.size() - 1, count = 0;
-        while (i < v1.size() && j >= 0) {
-            int sum = v1[i] + v2[j];
-            if (sum == x) {
+        vector<int>v;
+        vector<int>v2;
+        BuildIt(root1,v);
+        BuildIt2(root2,v2);
+        
+        int count = 0;
+        
+        int p1 = 0;
+        int p2 = 0;
+        while(p1<v.size()&&p2<v2.size()){
+            if(v[p1]+v2[p2] == x){
                 count++;
-                i++;
-                j--;
-            } else if (sum < x) {
-                i++;
-            } else {
-                j--;
+                p1++;
+                p2++;
+            }
+            else if(v[p1]+v2[p2] > x){
+                p2++;
+            }
+            else if(v[p1]+v2[p2] < x){
+                p1++;
             }
         }
+        
         return count;
     }
 };
