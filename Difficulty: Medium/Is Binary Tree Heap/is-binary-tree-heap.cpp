@@ -92,45 +92,43 @@ Node *buildTree(string str) {
         left = right = NULL;
     }
 };*/
-class Info {
-public:
+class Info{
+    public:
     int maxval;
-    bool isHeap;
-
-    Info(int a, bool b) {
+    bool isheap;
+    
+    
+    Info(int a,bool b){
         this->maxval = a;
-        this->isHeap = b;
+        this->isheap = b;
     }
 };
 
-Info checkHeap(Node* root) {
-    // Base case: Empty tree
-    if (!root) {
-        return Info(INT_MIN, true);
+Info checkHeap(Node* root){
+    if(!root){
+        return Info(INT_MIN,true);
     }
-
-    // Case for leaf node
-    if (!root->left && !root->right) {
-        return Info(root->data, true);
-    }
-
-    // Recursive calls for left and right subtrees
+    // if(!root->left && !root->right){
+    //     return Info(root->data,true);
+    // }
+    
     Info leftans = checkHeap(root->left);
     Info rightans = checkHeap(root->right);
-
-    // Check if current node satisfies heap property
-    if (root->data > leftans.maxval && root->data > rightans.maxval && leftans.isHeap && rightans.isHeap) {
-        return Info(root->data, true);
-    } else {
+    
+    
+    if(root->data>leftans.maxval && root->data>rightans.maxval && 
+    leftans.isheap && rightans.isheap){
+        return Info(root->data,true);
+    }
+    else{
         return Info(max(root->data, max(leftans.maxval, rightans.maxval)), false);
     }
 }
-
 class Solution {
-public:
-    bool isHeap(Node* root) {
+  public:
+    bool isHeap(struct Node* root) {
         Info result = checkHeap(root);
-        return result.isHeap;
+        return result.isheap;
     }
 };
 
