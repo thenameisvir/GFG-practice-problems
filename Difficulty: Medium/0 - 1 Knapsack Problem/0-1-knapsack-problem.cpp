@@ -6,66 +6,55 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    int usingRec(int capacity, vector<int> &val, vector<int> &wt,int index,int n){
-        // base case baad me dekhenge abhi hum nhi soch paye ye
-        if(index==n-1){
-            if(capacity-wt[index]>=0){
-                return val[index];
-            }
-            else{
-                return 0;
-            }
-        }
-        if(index>=n) return 0;
+    int usingRec(int capacity, vector<int> &val, vector<int> &wt,int i,int n){
+        // base case baad me likhenge 
+        if(i>=n) return 0;
         
-        // ek case solve karo baki mai dekh lunga  inc/exc
+        // ek case process karo baki ka baad me dekh lenge
         int inc = 0;
-        if(wt[index]<=capacity){
-            inc = val[index] + usingRec(capacity-wt[index],val,wt,index+1,n);
+        if(capacity>=wt[i]){
+            inc = val[i] + usingRec(capacity-wt[i],val,wt,i+1,n);
         }
-        int exc = 0 + usingRec(capacity,val,wt,index+1,n);
+        
+        int exc = 0 + usingRec(capacity,val,wt,i+1,n);
         
         return max(inc,exc);
-        
-        
     }
-    int solveUsingMem(int capacity, vector<int> &val, vector<int> &wt,int index,int n,vector<vector<int>>&dp){
-        if(index==n-1){
-            if(capacity-wt[index]>=0){
-                return val[index];
+    
+    
+    int usingMemo(int capacity, vector<int> &val, vector<int> &wt,int i,int n,vector<vector<int>>&dp){
+        if(i==n-1){
+            if(capacity>=wt[i]){
+                return val[i]; // yaha mai value return kar dunga 
             }
             else{
                 return 0;
             }
-    }
-    
-    // return ka dekhte hai kya krna hai
-    if(dp[capacity][index]!=-1){
-        return dp[capacity][index];
-    }
-    
-    
-    // recursion baba ki jai
-    
-    int inc = 0;
-        if(wt[index]<=capacity){
-            inc = val[index] + solveUsingMem(capacity-wt[index],val,wt,index+1,n,dp);
         }
-        int exc = 0 + solveUsingMem(capacity,val,wt,index+1,n,dp);
         
-        dp[capacity][index] =  max(inc,exc); 
+        // dp me store kar lenge aram se
+        if(dp[capacity][i]!=-1){
+            return dp[capacity][i];
+        }
         
-        return dp[capacity][index];
+        // ek case solve karo baki baad me dekh lenge
+        int inc = 0;
+        if(capacity>=wt[i]){
+            inc = val[i] + usingMemo(capacity-wt[i],val,wt,i+1,n,dp);
+        }
         
+        int exc = 0 + usingMemo(capacity,val,wt,i+1,n,dp);
+        
+        dp[capacity][i] = max(inc,exc);
+        
+        return dp[capacity][i];
+    
         
     }
     int knapSack(int capacity, vector<int> &val, vector<int> &wt) {
-        // not much different but it's okay
         int n = wt.size();
-        vector<vector<int>>dp(capacity+1,vector<int>(n+1,-1));
-        int ans = solveUsingMem(capacity,val,wt,0,wt.size(),dp);
-        return ans;
-        
+         vector<vector<int>>dp(capacity+1,vector<int>(n+1,-1));
+        int ans = usingMemo(capacity,val,wt,0,n,dp); return ans;
     }
 };
 
