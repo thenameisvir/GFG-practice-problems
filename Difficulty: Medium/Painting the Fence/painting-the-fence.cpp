@@ -37,12 +37,45 @@ class Solution {
         dp[n] = ans;
         return dp[n];
     }
+    int usingTab(int n, int k){
+        vector<int>dp(n+1,-1);
+        dp[1] = k;
+        dp[2] = k+k*(k-1);
+        
+        for(int i=3;i<=n;i++){
+        dp[i] = (dp[i-1] + dp[i-2])*(k-1);  
+        
+        }
+        
+        return dp[n];
+    }
+    int spaceOptimised(int n, int k){
+        
+        
+         int prev1 = k;
+         int prev2 = k+k*(k-1);
+         
+         if(n==1) return k;
+         if(n==2) return prev2;
+         int curr;
+         for(int i=3;i<=n;i++){
+             curr = (prev1+prev2)*(k-1);
+             prev1 = prev2;
+             prev2 = curr;
+         }
+         
+         return curr;
+        
+        
+        
+    }
     int countWays(int n, int k) {
         
         // int ansOfRec = usingRec(n,k); return ansOfRec;
-        vector<int>dp(n+1,-1);
-        int ans = usingMemo(n,k,dp); return ans;
-        
+        // vector<int>dp(n+1,-1);
+        // int ans = usingMemo(n,k,dp); return ans;
+        // int ans = usingTab(n,k); return ans;
+        int ans = spaceOptimised(n,k); return ans;
         
         
     }
