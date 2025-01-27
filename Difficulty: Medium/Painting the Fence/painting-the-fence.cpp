@@ -8,36 +8,43 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    long long solveUsingRec(int n,int k){
-if(n==1) return k;
-if(n==2) return k + k*(k-1);
-        // ek case solve karo baki recursion dekh lega:
-long long ans = (k-1)*(solveUsingRec(n-1,k)+solveUsingRec(n-2,k));
-
-                
-return ans;
-         
+    int usingRec(int n,int k){
+        
+        // base case ek toh smjh aa rha hai ki
+        if(n==1) return k; // kyuki aur koi choice hi nahi hai apne pas
+        
+        if(n==2) return k+k*(k-1);
+        
+        // dono base case smjh aagye hain ab ans build karte hai chalo
+        
+        int ans = (usingRec(n-1,k) + usingRec(n-2,k))*(k-1);
+        
+        return ans;
+        
+        
     }
     
-    long long usingMemo(int n,int k,vector<int>&dp){
+    int usingMemo(int n,int k,vector<int>&dp){
         if(n==1) return k;
-        if(n==2) return k + k*(k-1);
-    
-    if(dp[n]!=-1){
+        
+        if(n==2) return k+k*(k-1);
+        // copy paste base case as it is
+        
+        if(dp[n]!=-1) return dp[n];
+        
+        int ans = (usingMemo(n-1,k,dp) + usingMemo(n-2,k,dp))*(k-1);
+        
+        dp[n] = ans;
         return dp[n];
     }
-    
-    long long ans = (k-1)*(usingMemo(n-1,k,dp)+usingMemo(n-2,k,dp));
-    
-    dp[n] = ans;
-    return dp[n];
-
-    }
-    
-    long long countWays(int n, int k) {
+    int countWays(int n, int k) {
+        
+        // int ansOfRec = usingRec(n,k); return ansOfRec;
         vector<int>dp(n+1,-1);
-        long long ans = usingMemo(n,k,dp);
-        return ans;
+        int ans = usingMemo(n,k,dp); return ans;
+        
+        
+        
     }
 };
 
