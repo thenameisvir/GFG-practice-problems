@@ -7,54 +7,43 @@ using namespace std;
 class Solution {
   public:
     int usingRec(int capacity, vector<int> &val, vector<int> &wt,int i,int n){
-        // base case baad me likhenge 
+        // base case for first in mind
         if(i>=n) return 0;
         
-        // ek case process karo baki ka baad me dekh lenge
+        
+        // process one case and leave it all on recursion
         int inc = 0;
         if(capacity>=wt[i]){
             inc = val[i] + usingRec(capacity-wt[i],val,wt,i+1,n);
         }
-        
-        int exc = 0 + usingRec(capacity,val,wt,i+1,n);
+        int exc = 0 +  usingRec(capacity,val,wt,i+1,n);
         
         return max(inc,exc);
     }
-    
-    
-    int usingMemo(int capacity, vector<int> &val, vector<int> &wt,int i,int n,vector<vector<int>>&dp){
-        if(i==n-1){
-            if(capacity>=wt[i]){
-                return val[i]; // yaha mai value return kar dunga 
-            }
-            else{
-                return 0;
-            }
-        }
+    int memo(int capacity, vector<int> &val, vector<int> &wt,int i,int n,vector<vector<int>>&dp){
+        if(i>=n) return 0; // base case as it is
         
-        // dp me store kar lenge aram se
+        
+        // if dp has the answer then return it 
         if(dp[capacity][i]!=-1){
             return dp[capacity][i];
         }
         
-        // ek case solve karo baki baad me dekh lenge
+        
         int inc = 0;
         if(capacity>=wt[i]){
-            inc = val[i] + usingMemo(capacity-wt[i],val,wt,i+1,n,dp);
+            inc = val[i] + memo(capacity-wt[i],val,wt,i+1,n,dp);
         }
-        
-        int exc = 0 + usingMemo(capacity,val,wt,i+1,n,dp);
+        int exc = 0 +  memo(capacity,val,wt,i+1,n,dp);
         
         dp[capacity][i] = max(inc,exc);
-        
         return dp[capacity][i];
-    
+        
         
     }
     int knapSack(int capacity, vector<int> &val, vector<int> &wt) {
-        int n = wt.size();
-         vector<vector<int>>dp(capacity+1,vector<int>(n+1,-1));
-        int ans = usingMemo(capacity,val,wt,0,n,dp); return ans;
+        vector<vector<int>>dp(capacity+1,vector<int>(wt.size(),-1));
+        int ans = memo(capacity,val,wt,0,val.size(),dp); return ans;
     }
 };
 
