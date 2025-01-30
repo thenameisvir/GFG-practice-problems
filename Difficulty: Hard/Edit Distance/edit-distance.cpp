@@ -36,6 +36,11 @@ class Solution {
         dp[i][j] = ans;
         return dp[i][j];
     }
+    int tabulation(string& s1, string& s2){
+        // put in the vector according to the base case
+     vector<vector<int>>dp(s1.length()+1,vector<int>(s2.length()+1,0));
+     return -1;
+    }
     int editDistance(string& s1, string& s2) {
         int i = 0;
         int j = 0;
