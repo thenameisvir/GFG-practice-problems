@@ -6,41 +6,35 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    // Function to detect cycle in an undirected graph.
-   bool isCycle(vector<vector<int>>& adj) {  // Pass total nodes `n`
-    unordered_map<int, bool> vis;
-    unordered_map<int, int> parent;
-    queue<int> q;
-    int n = adj.size();
-
-    for (int i = 0; i < n; i++) {  // Check all components
-        if (!vis[i]) {
-            q.push(i);
-            vis[i] = true;
-            parent[i] = -1;
-
-            while (!q.empty()) {
-                int front = q.front();
-                q.pop();
-
-                for (auto neighbor : adj[front]) {
-                    if (!vis[neighbor]) {
-                        q.push(neighbor);
-                        vis[neighbor] = true;
-                        parent[neighbor] = front;
-                    } 
-                    else if (parent[front] != neighbor) {  // Correct condition
-                        return true;
-                    }
-                }
+    bool ansde(int src,unordered_map<int,bool>&vis,int parent,vector<vector<int>>& adj){
+         vis[src] = true;
+         
+         for(auto i:adj[src]){
+             if(!vis[i]){
+                 bool ans = ansde(i,vis,src,adj);
+                 if(ans) return true;
+             }
+             else if(vis[i]==true && i!=parent) return true;
+         }
+         
+         
+         
+         return false;
+    }
+    bool isCycle(vector<vector<int>>& adj) {
+        int n = adj.size();
+        unordered_map<int,bool>vis;
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                int parent = -1;
+                bool ans = ansde(i,vis,parent,adj);
+            if(ans) return true;
             }
         }
+        
+        
+        return false;
     }
-
-    return false;
-}
-
-
 };
 
 //{ Driver Code Starts.
