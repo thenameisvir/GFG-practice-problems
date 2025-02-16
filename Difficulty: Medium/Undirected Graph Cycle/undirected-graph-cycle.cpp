@@ -6,32 +6,41 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool ansde(int src,unordered_map<int,bool>&vis,int parent,vector<vector<int>>& adj){
-         vis[src] = true;
-         
-         for(auto i:adj[src]){
-             if(!vis[i]){
-                 bool ans = ansde(i,vis,src,adj);
-                 if(ans) return true;
-             }
-             else if(vis[i]==true && i!=parent) return true;
-         }
-         
-         
-         
-         return false;
-    }
-    bool isCycle(vector<vector<int>>& adj) {
-        int n = adj.size();
-        unordered_map<int,bool>vis;
-        for(int i=0;i<n;i++){
-            if(!vis[i]){
-                int parent = -1;
-                bool ans = ansde(i,vis,parent,adj);
-            if(ans) return true;
+    // Function to detect cycle in an undirected graph.
+    bool check(int src,unordered_map<int,bool>&vis,unordered_map<int,int>&parent,queue<int>&q,vector<vector<int>>& adj){
+        q.push(src);
+        vis[src] = true;
+        parent[src] = -1;
+        
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            for(auto i:adj[front]){
+               if(!vis[i]){
+                vis[i] = true;
+                parent[i] = front;
+                q.push(i);
+               }
+               else if(vis[i] == true && parent[front]!=i){
+                   return true;
+               }
             }
         }
         
+        return false;
+    }
+    bool isCycle(vector<vector<int>>& adj) {
+        unordered_map<int,bool>vis;
+        unordered_map<int,int>parent;
+        queue<int>q;
+        
+        // pehla node process ker lete hai
+        for(int i=0;i<adj.size();i++){
+            if(!vis[i]){
+                bool ans = check(i,vis,parent,q,adj);
+                if(ans) return true;
+            }
+        }
         
         return false;
     }
