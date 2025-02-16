@@ -7,35 +7,37 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in a directed graph.
-    bool check(int src,vector<vector<int>> &adj,unordered_map<int,bool>&vis,unordered_map<int,bool>&track){
-        vis[src] = true;
-        track[src] = true;
-        
-        for(auto i:adj[src]){
-            if(!vis[i]){
-                bool ans = check(i,adj,vis,track);
-                if(ans) return true;
-            }
-            else if(vis[i]==1 && track[i]==1) return true;
-        }
-        
-        track[src] = false;
-        
-        return false;
-    }
     bool isCyclic(vector<vector<int>> &adj) {
-        unordered_map<int,bool>vis;
-        // unordered_map<int,bool>track;
-        unordered_map<int,bool>track;
-        // unor
-        for(int i=0;i<adj.size();i++){
-            if(!vis[i]){
-                bool ans = check(i,adj,vis,track);
-                if(ans) return true;
+        // sabse pehle apan
+        queue<int>q;
+        unordered_map<int,int>in;
+        vector<int>v;
+        
+        // sabse pehle indegree daal do 
+        for(auto i:adj){
+            for(auto j:i){
+                in[j]++;
             }
         }
         
-        return false;
+        // now push all the indegree which have 0 in the queue
+        for(int i=0;i<adj.size();i++){
+            if(in[i]==0) q.push(i);
+        }
+        // now continue with the same logic
+        
+        while(!q.empty()){
+            int front = q.front();
+            q.pop();
+            v.push_back(front);
+            for(auto i:adj[front]){
+                // yaha 2 cheesein krenge apan 
+                in[i]--;
+                if(in[i]==0) q.push(i);
+            }
+        }
+        
+        return adj.size()!=v.size();
     }
 };
 
