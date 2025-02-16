@@ -6,33 +6,31 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool check(int src,unordered_map<int,bool>&vis,unordered_map<int,bool>&track,vector<vector<int>> adj){
+    // Function to detect cycle in a directed graph.
+    bool check(int src,vector<vector<int>> &adj,unordered_map<int,bool>&vis,unordered_map<int,bool>&track){
         vis[src] = true;
         track[src] = true;
         
         for(auto i:adj[src]){
             if(!vis[i]){
-                bool ans = check(i,vis,track,adj);
+                bool ans = check(i,adj,vis,track);
                 if(ans) return true;
             }
-            
-            if(vis[i]==1 && track[i]==1){
-                return true;
-            }
-            
+            else if(vis[i]==1 && track[i]==1) return true;
         }
         
         track[src] = false;
         
         return false;
     }
-    bool isCyclic(int V, vector<vector<int>> adj) {
+    bool isCyclic(vector<vector<int>> &adj) {
         unordered_map<int,bool>vis;
+        // unordered_map<int,bool>track;
         unordered_map<int,bool>track;
-        
-        for(int i=0;i<V;i++){
+        // unor
+        for(int i=0;i<adj.size();i++){
             if(!vis[i]){
-                bool ans = check(i,vis,track,adj);
+                bool ans = check(i,adj,vis,track);
                 if(ans) return true;
             }
         }
@@ -60,7 +58,7 @@ int main() {
         }
 
         Solution obj;
-        cout << obj.isCyclic(V, adj) << "\n";
+        cout << obj.isCyclic(adj) << "\n";
 
         cout << "~"
              << "\n";
