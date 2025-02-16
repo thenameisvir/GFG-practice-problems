@@ -5,38 +5,36 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution {
-  public:   
-    
-    void topoSort(int src,vector<vector<int>>& adj,unordered_map<int,bool>&vis,stack<int>&st){
-     // DFS me base case toh baccha baccha bhi janta hai 
-     vis[src] = true;
-     
-     for(auto i:adj[src]){
-         if(!vis[i]){
-             topoSort(i,adj,vis,st);
-         }
-     }
-     
-     st.push(src); // ye vo line hai jo teri placement lagwayegi 
+  public:
+    void topo(int src,vector<vector<int>>& adj,unordered_map<int,bool>&vis,stack<int>&st){
+        vis[src] = true;
+        
+        for(auto i:adj[src]){
+            if(!vis[i]){
+                topo(i,adj,vis,st);
+            }
+        }
+        
+        st.push(src);
     }
     vector<int> topologicalSort(vector<vector<int>>& adj) {
-        // Your code here
         unordered_map<int,bool>vis;
         stack<int>st;
+        
         for(int i=0;i<adj.size();i++){
             if(!vis[i]){
-                topoSort(i,adj,vis,st);
+                topo(i,adj,vis,st);
             }
         }
         
         vector<int>v;
         while(!st.empty()){
-            int a = st.top();
-            v.push_back(a);
+            v.push_back(st.top());
             st.pop();
         }
         
         return v;
+        
     }
 };
 
