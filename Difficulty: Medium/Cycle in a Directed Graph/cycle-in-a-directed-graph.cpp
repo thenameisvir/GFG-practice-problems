@@ -8,37 +8,32 @@ class Solution {
   public:
     // Function to detect cycle in a directed graph.
     bool isCyclic(vector<vector<int>> &adj) {
-        // topological sort
         unordered_map<int,int>in;
         queue<int>q;
-        vector<int>v;
-        // indegree daal do sab me
         for(auto i:adj){
             for(auto j:i){
                 in[j]++;
             }
         }
         
-        // indegree push hogyi ab queue me vo degree push kardo jo 0 h
         for(int i=0;i<adj.size();i++){
             if(in[i]==0) q.push(i);
         }
         
-        // queue me sab push ho chuka hai ab start karte hai 
+        // ab apna kaam karo
+        vector<int>v;
         while(!q.empty()){
             int front = q.front();
             q.pop();
             v.push_back(1);
             for(auto i:adj[front]){
-                // isme 2 cheesein karni hoti hai 
+                // 2 cheesein check karo 
                 in[i]--;
                 if(in[i]==0) q.push(i);
             }
         }
         
-        
         return v.size()!=adj.size();
-        
     }
 };
 
