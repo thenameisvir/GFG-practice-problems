@@ -4,48 +4,30 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    int usingRec(int capacity, vector<int> &val, vector<int> &wt,int i,int n){
-        // base case for first in mind
-        if(i>=n) return 0;
-        
-        
-        // process one case and leave it all on recursion
-        int inc = 0;
-        if(capacity>=wt[i]){
-            inc = val[i] + usingRec(capacity-wt[i],val,wt,i+1,n);
+    int solve(int W, vector<int> &val, vector<int> &wt, int i, vector<vector<int>> &dp) {
+        if(i >= val.size()) return 0;
+        if(dp[i][W] != -1) return dp[i][W];
+
+        int inc = 0, exc = 0;
+        if(W >= wt[i]) {
+            inc = val[i] + solve(W - wt[i], val, wt, i + 1, dp);
         }
-        int exc = 0 +  usingRec(capacity,val,wt,i+1,n);
-        
-        return max(inc,exc);
+        exc = solve(W, val, wt, i + 1, dp);
+
+        return dp[i][W] = max(inc, exc);
     }
-    int memo(int capacity, vector<int> &val, vector<int> &wt,int i,int n,vector<vector<int>>&dp){
-        if(i>=n) return 0; // base case as it is
-        
-        
-        // if dp has the answer then return it 
-        if(dp[capacity][i]!=-1){
-            return dp[capacity][i];
-        }
-        
-        
-        int inc = 0;
-        if(capacity>=wt[i]){
-            inc = val[i] + memo(capacity-wt[i],val,wt,i+1,n,dp);
-        }
-        int exc = 0 +  memo(capacity,val,wt,i+1,n,dp);
-        
-        dp[capacity][i] = max(inc,exc);
-        return dp[capacity][i];
-        
-        
-    }
-    int knapSack(int capacity, vector<int> &val, vector<int> &wt) {
-        vector<vector<int>>dp(capacity+1,vector<int>(wt.size(),-1));
-        int ans = memo(capacity,val,wt,0,val.size(),dp); return ans;
+
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        int n = val.size();
+        vector<vector<int>> dp(n, vector<int>(W + 1, -1));
+        return solve(W, val, wt, 0, dp);
     }
 };
+
+
 
 //{ Driver Code Starts.
 
@@ -84,7 +66,7 @@ int main() {
         }
 
         Solution solution;
-        cout << solution.knapSack(capacity, values, weights) << endl;
+        cout << solution.knapsack(capacity, values, weights) << endl;
         cout << "~" << endl;
     }
     return 0;
