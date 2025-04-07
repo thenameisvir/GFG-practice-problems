@@ -19,11 +19,27 @@ class Solution {
 
         return dp[i][W] = max(inc, exc);
     }
+    int usingTab(int W, vector<int> &val, vector<int> &wt){
+         int n = val.size();
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
 
+    for (int i = n - 1; i >= 0; i--) {
+        for (int w = 0; w <= W; w++) {
+            int inc = 0, exc = 0;
+            if (w >= wt[i]) {
+                inc = val[i] + dp[i + 1][w - wt[i]];
+            }
+            exc = dp[i + 1][w];
+            dp[i][w] = max(inc, exc);
+        }
+    }
+
+    return dp[0][W];
+        
+    }
     int knapsack(int W, vector<int> &val, vector<int> &wt) {
-        int n = val.size();
-        vector<vector<int>> dp(n, vector<int>(W + 1, -1));
-        return solve(W, val, wt, 0, dp);
+        
+        return usingTab(W, val, wt);
     }
 };
 
