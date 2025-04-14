@@ -6,33 +6,27 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 // User function template for C++
 
 class Solution {
   public:
     // arr : given array
     // k : find kth smallest element and return using this function
-    
-    
     int kthSmallest(vector<int> &arr, int k) {
-        priority_queue<int>pq;
-        
-        for(int i=0;i<k;i++){
-            pq.push(arr[i]);
-        }
-        
-        for(int i=k;i<arr.size();i++){
-            if(arr[i]<pq.top()){
-                pq.pop();
-                pq.push(arr[i]);
-            }
-        }
-        
-        return pq.top();
-        
-        
+    priority_queue<int> pq; // Max-heap
+
+    for (int i = 0; i < arr.size(); i++) {
+        pq.push(arr[i]);
+
+        if (pq.size() > k)
+            pq.pop();
     }
+
+    return pq.top(); // Top will be the kth smallest
+}
 };
+
 
 //{ Driver Code Starts.
 
