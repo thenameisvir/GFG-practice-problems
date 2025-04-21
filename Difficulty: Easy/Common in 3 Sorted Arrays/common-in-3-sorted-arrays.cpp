@@ -1,47 +1,46 @@
 //{ Driver Code Starts
+// here
+
 #include <bits/stdc++.h>
 using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
     // Function to find common elements in three arrays.
-    vector<int> commonElements(vector<int> &arr1, vector<int> &arr2,
-                               vector<int> &arr3) {
-                                   
-        set<int>st;
-        vector<int>v;
-        int i = 0,j=0,k=0;
-        int n1 = arr1.size();
-        int n2 = arr2.size();
-        int n3 = arr3.size();
-        while(i<n1 && j<n2 && k<n3){
-            if(arr1[i]==arr2[j]&&arr2[j]==arr3[k]){
-                st.insert(arr1[i]);
-                i++;j++;k++;
-            }
-            else if(arr1[i]<arr2[j]){
-                i++;
-            }
-            else if(arr2[j]<arr3[k]){
-                j++;
-            }
-            else{
-                k++;
-            }
+   vector<int> commonElements(vector<int> &arr1, vector<int> &arr2, vector<int> &arr3) {
+    set<int> st;
+    vector<int> v;
+    int i = 0, j = 0, k = 0;
+    int n1 = arr1.size(), n2 = arr2.size(), n3 = arr3.size();
+
+    while (i < n1 && j < n2 && k < n3) {
+        if (arr1[i] == arr2[j] && arr1[i] == arr3[k]) {
+            st.insert(arr1[i]);
+            i++; j++; k++;
         }
-        
-        for(auto i:st){
-            v.push_back(i);
+        else if (arr1[i] < arr2[j]) {
+            i++;
         }
-        
-        return v;
-        
-                                   
-        
+        else if (arr2[j] < arr3[k]) {
+            j++;
+        }
+        else {
+            k++;
+        }
     }
+
+    for (auto val : st) {
+        v.push_back(val);
+    }
+
+    return v;
+}
+
 };
+
 
 //{ Driver Code Starts.
 
@@ -78,7 +77,7 @@ int main() {
             cout << -1;
         for (int i = 0; i < res.size(); i++)
             cout << res[i] << " ";
-        cout << endl;
+        cout << endl << "~\n";
     }
 }
 // } Driver Code Ends
