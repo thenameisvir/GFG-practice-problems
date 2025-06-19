@@ -1,93 +1,5 @@
-//{ Driver Code Starts
-// Initial Template for C++
-
-#include <bits/stdc++.h>
-using namespace std;
-
-// Tree Node
-struct Node {
-    int data;
-    Node* left;
-    Node* right;
-};
-
-// Utility function to create a new Tree Node
-Node* newNode(int val) {
-    Node* temp = new Node;
-    temp->data = val;
-    temp->left = NULL;
-    temp->right = NULL;
-
-    return temp;
-}
-
-// Function to Build Tree
-Node* buildTree(string str) {
-    // Corner Case
-    if (str.length() == 0 || str[0] == 'N')
-        return NULL;
-
-    // Creating vector of strings from input
-    // string after spliting by space
-    vector<string> ip;
-
-    istringstream iss(str);
-    for (string str; iss >> str;)
-        ip.push_back(str);
-
-    // Create the root of the tree
-    Node* root = newNode(stoi(ip[0]));
-
-    // Push the root to the queue
-    queue<Node*> queue;
-    queue.push(root);
-
-    // Starting from the second element
-    int i = 1;
-    while (!queue.empty() && i < ip.size()) {
-
-        // Get and remove the front of the queue
-        Node* currNode = queue.front();
-        queue.pop();
-
-        // Get the current node's value from the string
-        string currVal = ip[i];
-
-        // If the left child is not null
-        if (currVal != "N") {
-
-            // Create the left child for the current node
-            currNode->left = newNode(stoi(currVal));
-
-            // Push it to the queue
-            queue.push(currNode->left);
-        }
-
-        // For the right child
-        i++;
-        if (i >= ip.size())
-            break;
-        currVal = ip[i];
-
-        // If the right child is not null
-        if (currVal != "N") {
-
-            // Create the right child for the current node
-            currNode->right = newNode(stoi(currVal));
-
-            // Push it to the queue
-            queue.push(currNode->right);
-        }
-        i++;
-    }
-
-    return root;
-}
-
-
-// } Driver Code Ends
 /*
-struct Node 
+struct Node
 {
     int data;
     Node* left;
@@ -98,68 +10,37 @@ class Solution {
   public:
     // Function to return a list of nodes visible from the top view
     // from left to right in Binary Tree.
-   
     vector<int> topView(Node *root) {
-       vector<int> result;
-        if (!root) return result;
+        // code here
+        // Let's do it by level order traversal 
+        map<int,int>mp;
+        queue<pair<Node*,int>>q;
+        q.push({root,0});
         
-        // Map to store the first node at each horizontal distance
-        map<int, int> hdtomap;
-        // Queue for level order traversal (node, horizontal distance)
-        queue<pair<Node*, int>> q;
         
-        q.push({root, 0});
-        
-        while (!q.empty()) {
-            pair<Node*,int>temp = q.front();
+        // yaha hoga apna main logic shuru 
+        while(!q.empty()){
+            auto front = q.front();
             q.pop();
             
-            Node* frontNode = temp.first;
-            int hd = temp.second;
+            Node* node = front.first;
+            int level = front.second;
             
-            // If this horizontal distance is seen for the first time
-            if (hdtomap.find(hd) == hdtomap.end()) {
-                hdtomap[hd] = frontNode->data;
+            if(mp.find(level)==mp.end()){
+                mp[level] = node->data;
             }
             
-            // Push left and right children with updated horizontal distances
-            if (frontNode->left) {
-                q.push({frontNode->left, hd - 1});
-            }
-            if (frontNode->right) {
-                q.push({frontNode->right, hd + 1});
-            }
+            if(node->left) q.push({node->left,level-1});
+            if(node->right) q.push({node->right,level+1});
+            
         }
         
-        // Collect the top view nodes from the map
-        for (auto pair : hdtomap) {
-            result.push_back(pair.second);
+        vector<int>ans;
+        
+        for(auto it:mp){
+            ans.push_back(it.second);
         }
         
-        return result;
+        return ans;
     }
 };
-
-
-//{ Driver Code Starts.
-
-int main() {
-    int tc;
-    cin >> tc;
-    cin.ignore(256, '\n');
-    while (tc--) {
-        string treeString;
-        getline(cin, treeString);
-        Solution ob;
-        Node* root = buildTree(treeString);
-        vector<int> vec = ob.topView(root);
-        for (int x : vec)
-            cout << x << " ";
-        cout << endl;
-
-        cout << "~"
-             << "\n";
-    }
-    return 0;
-}
-// } Driver Code Ends
