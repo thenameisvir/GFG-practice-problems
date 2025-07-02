@@ -16,19 +16,17 @@ class Solution {
   public:
     // returns the inorder successor of the Node x in BST (rooted at 'root')
     int inOrderSuccessor(Node *root, Node *x) {
-    int succ = -1;
-
-    while(root){
-        if(root->data > x->data){
-            succ = root->data;
-            root = root->left;
+        int succ = -1;
+        while(root){
+            if(root->data > x->data){
+                succ = root->data;
+                root = root->left;
+            }
+            else{
+                root = root->right;
+            }
         }
-        else{
-            root = root->right;
-        }
+        
+        return succ;
     }
-
-    return succ;
-}
-
 };
