@@ -14,17 +14,22 @@ class Solution {
     // arr : given array
     // k : find kth smallest element and return using this function
     int kthSmallest(vector<int> &arr, int k) {
-    priority_queue<int> pq; // Max-heap
-
-    for (int i = 0; i < arr.size(); i++) {
-        pq.push(arr[i]);
-
-        if (pq.size() > k)
+        if(k>arr.size()) return -1;
+        priority_queue<int>pq;
+        for(int i=0;i<arr.size();i++){
+            pq.push(arr[i]);
+        }
+        
+        int size = arr.size();
+        int temp = size-k;
+        while(temp){
             pq.pop();
+            temp--;
+        }
+        
+        return pq.top();
+        
     }
-
-    return pq.top(); // Top will be the kth smallest
-}
 };
 
 
