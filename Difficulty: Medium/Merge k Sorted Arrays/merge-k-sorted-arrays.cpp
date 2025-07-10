@@ -1,68 +1,61 @@
-//{ Driver Code Starts
-//Initial Template for C++
-
-#include<bits/stdc++.h>
-#define N 105
-using namespace std;
-void printArray(vector<int> arr, int size)
-{
-for (int i=0; i < size; i++)
-	cout << arr[i] << " ";
-}
-
-
-// } Driver Code Ends
-//User function Template for C++
-
-
-class Solution
-{
-    public:
-    //Function to merge k sorted arrays.
-    vector<int> mergeKArrays(vector<vector<int>> arr, int K)
-    {
-        vector<int>v;
-        for(int i=0;i<arr.size();i++){
-            for(int j=0;j<arr[i].size();j++){
-                v.push_back(arr[i][j]);
-            }
+class Solution {
+  public:
+    class Info{
+        public:
+        int data;
+        int rowIndex;
+        int colIndex;
+        
+        Info(int data,int rowIndex,int colIndex){
+            this->data = data;
+            this->rowIndex = rowIndex;
+            this->colIndex = colIndex;
+        }
+    };
+    
+    class compare{
+        public:
+        bool operator()(Info* a,Info* b){
+            return a->data > b->data;
+        }
+    };
+    
+    void solve(vector<vector<int>> arr,int n,int k,vector<int>&ans){
+        // step 1 
+        priority_queue<Info*,vector<Info*>,compare>pq; // initialise min heap
+        
+        // process first window
+        for(int i=0;i<n;i++){
+            Info* temp = new Info(arr[i][0],i,0);
+            pq.push(temp);
         }
         
-        sort(v.begin(),v.end());
+        // ab thoda sliding window wala logic chalyenge
+        while(!pq.empty()){
+            Info* temp = pq.top(); pq.pop();
+            int topdata = temp->data;
+            int toprow = temp->rowIndex;
+            int topcol = temp->colIndex;
+            
+            ans.push_back(topdata);
+            
+            // ab yaha ata hai main logic apna 
+            
+            if(topcol+1<n){
+                Info* newNode = new Info(arr[toprow][topcol+1],toprow,topcol+1);
+                pq.push(newNode);
+            }
+        }
+    }
+    // Function to merge k sorted arrays.
+    vector<int> mergeKArrays(vector<vector<int>> arr, int K) {
         
-        return v;
+        int n = arr.size();
+        int k = arr[0].size();
+        
+        vector<int>ans;
+        
+        solve(arr,n,k,ans);
+        return ans;
     }
 };
-
-//{ Driver Code Starts.
-
-int main()
-{
-	int t;
-	cin>>t;
-	while(t--){
-	    int k;
-	    cin>>k;
-	    vector<vector<int>> arr(k, vector<int> (k, 0));
-	    for(int i=0; i<k; i++){
-	        for(int j=0; j<k; j++)
-	        {
-	            cin>>arr[i][j];
-	        }
-	    }
-	    Solution obj;
-    	vector<int> output = obj.mergeKArrays(arr, k);
-    	printArray(output, k*k);
-    	cout<<endl;
-    
-cout << "~" << "\n";
-}
-	return 0;
-}
-
-
-
-
-
-
-// } Driver Code Ends
