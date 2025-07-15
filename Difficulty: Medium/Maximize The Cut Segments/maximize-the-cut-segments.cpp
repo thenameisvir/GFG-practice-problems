@@ -1,9 +1,3 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
 class Solution {
   public:
     // Function to find the maximum number of cuts.
@@ -20,11 +14,24 @@ class Solution {
             return dp[n];
         }
         
-    int ans1 = (n >= x) ? 1 + solveUsingMem(n - x, x, y, z, dp) : INT_MIN;
-    int ans2 = (n >= y) ? 1 + solveUsingMem(n - y, x, y, z, dp) : INT_MIN;
-    int ans3 = (n >= z) ? 1 + solveUsingMem(n - z, x, y, z, dp) : INT_MIN;
+    int op1 = INT_MIN;
+    int op2 = INT_MIN;
+    int op3 = INT_MIN;
+    if(n>=x){
+        op1 = 0;
+        op1 = 1 + solveUsingMem(n-x,x,y,z,dp);
+    }
+    if(n>=y){
+        op2 = 0;
+        op2 = 1 + solveUsingMem(n-y,x,y,z,dp);
+    }
+    if(n>=z){
+        op3 = 0;
+        op3 = 1 + solveUsingMem(n-z,x,y,z,dp);
+    }
+    
 
-    dp[n] = max({ans1, ans2, ans3});
+    dp[n] = max({op1, op2, op3});
     return dp[n];
     }
     int maximizeTheCuts(int n, int x, int y, int z) {
@@ -34,29 +41,3 @@ class Solution {
         return ans;
     }
 };
-
-//{ Driver Code Starts.
-int main() {
-
-    // taking testcases
-    int t;
-    cin >> t;
-    while (t--) {
-        // taking length of line segment
-        int n;
-        cin >> n;
-
-        // taking types of segments
-        int x, y, z;
-        cin >> x >> y >> z;
-        Solution obj;
-        // calling function maximizeTheCuts()
-        cout << obj.maximizeTheCuts(n, x, y, z) << endl;
-
-        cout << "~"
-             << "\n";
-    }
-
-    return 0;
-}
-// } Driver Code Ends
